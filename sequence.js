@@ -13,11 +13,28 @@ var fileTypes = {
 	TYPE_1: 0x1 // multi track
 };
 
+/**
+ * @constructor
+ *
+ * @description Represents a collection of MIDI messages in one or more tracks.
+ *
+ * @param {Object} header - the sequence header
+ * @param {Number} header.noTracks - the number of tracks in this sequence
+ */
 function Sequence(header) {
 	this.tracks = [];
 	this.header = header;
 }
 
+/**
+ * addTrack
+ *
+ * @description Adds a track to the sequence.
+ *
+ * @memberof Sequence
+ *
+ * @param {Track} track - the track to add
+ */
 Sequence.prototype.addTrack = function (track) {
 	if (this.tracks.length >= this.header.noTracks) {
 		console.warn('Tracks exceed specified number of tracks in header field.');
@@ -25,21 +42,54 @@ Sequence.prototype.addTrack = function (track) {
 	this.tracks.push(track);
 };
 
+/**
+ * getTracks
+ *
+ * @description Returns the number of tracks in the sequence.
+ *
+ * @memberof Sequence
+ *
+ * @returns {Number} the number of tracks
+ */
 Sequence.prototype.getTracks = function () {
 	return this.tracks;
 };
 
+/**
+ * getFileType
+ *
+ * @description Returns the MIDI file type.
+ *
+ * @memberof Sequence
+ *
+ * @returns {Number} the file type
+ */
 Sequence.prototype.getFileType = function () {
 	return this.header.fileType;
 };
 
+/**
+ * getTicks
+ *
+ * @description Returns the number of ticks per quarter note in the sequence.
+ *
+ * @memberof Sequence
+ *
+ * @returns {Number} the number of ticks per quarter note
+ */
 Sequence.prototype.getTicks = function () {
 	return this.header.ticks;
 };
 
 /**
+ * fromBuffer
  *
- * @param buffer
+ * @description Parses a sequence from a Buffer
+ *
+ * @memberof Sequence
+ *
+ * @param {Buffer} buffer - the buffer to parse
+ *
  * @returns {Sequence}
  */
 Sequence.fromBuffer = function (buffer) {

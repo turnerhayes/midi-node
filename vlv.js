@@ -1,5 +1,20 @@
+/**
+ * Contains methods for reading and writing variable length values.
+ *
+ * @module VariableLengthValue
+ */
+
 'use strict';
 
+/**
+ * fromBuffer
+ *
+ * @description Reads a variable length value from the buffer.
+ *
+ * @param {Buffer} buffer - the buffer to read from
+ *
+ * @returns {Number} the value read from the buffer
+ */
 exports.fromBuffer = function (buffer) {
 	var offset = 0;
 	var value = 0;
@@ -21,6 +36,15 @@ exports.fromBuffer = function (buffer) {
 	return value;
 };
 
+/**
+ * toBuffer
+ *
+ * @description Writes a variable length value into a new buffer.
+ *
+ * @param {Number} value - the value to write to the buffer
+ *
+ * @returns {Buffer} a Buffer containing the value as a variable length value
+ */
 exports.toBuffer = function (value) {
 	if (!value) {
 		return new Buffer([0]);

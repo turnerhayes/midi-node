@@ -37,20 +37,57 @@ var commands = {
 	}
 };
 
+/**
+ * @constructor
+ *
+ * @description A MIDI message object.
+ *
+ * @params {Number} status - the status byte for this message
+ * @params {Array<Number>} data - the data in the message as an array of bytes
+ * @params {Number} length - the length of the message, in bytes
+ */
 function Message(status, data, length) {
 	this.statusByte = status;
 	this.data = data;
 	this.length = length;
 }
 
+/**
+ * getStatus
+ *
+ * @description Returns the status byte for this event. If this event is a channel event,
+ * the channel is set to 0.
+ *
+ * @memberof Message
+ *
+ * @returns {Number} the status byte
+ */
 Message.prototype.getStatus = function () {
 	return this.statusByte === constants.META_EVENT ? this.statusByte : this.statusByte & 0xF0;
 };
 
+/**
+ * getCommand
+ *
+ * @description Returns the name of the command corresponding with this message's status.
+ *
+ * @memberof Message
+ *
+ * @returns {String} the name of the command
+ */
 Message.prototype.getCommand = function () {
 	return commands[this.getStatus()].name;
 };
 
+/**
+ * getChannel
+ *
+ * @description Returns the channel number, zero-based.
+ *
+ * @memberof Message
+ *
+ * @returns {Number|null} the channel number, or {@linkcode null} if this is not a channel message
+ */
 Message.prototype.getChannel = function () {
 	if (!this.isChannelMessage()) {
 		return null;
@@ -58,22 +95,67 @@ Message.prototype.getChannel = function () {
 	return this.statusByte & 0x0F;
 };
 
+/**
+ * getData
+ *
+ * @description Returns the data in this message.
+ *
+ * @memberof Message
+ *
+ * @returns {Array<Number>} the data, as an array of bytes
+ */
 Message.prototype.getData = function () {
 	return this.data;
 };
 
+/**
+ * isChannelMessage
+ *
+ * @description Determines whether this message is a channel message.
+ *
+ * @memberof Message
+ *
+ * @returns {Boolean} {@linkcode true} if this is a channel message, {@linkcode false} otherwise
+ */
 Message.prototype.isChannelMessage = function () {
 	return this.statusByte < 0xF0;
 };
 
+/**
+ * isSystemMessage
+ *
+ * @description Determines whether this message is a system message.
+ *
+ * @memberof Message
+ *
+ * @returns {Boolean} {@linkcode true} if this is a system message, {@linkcode false} otherwise
+ */
 Message.prototype.isSystemMessage = function () {
 	return this.statusByte >= 0xF0;
 };
 
+/**
+ * isEndOfTrack
+ *
+ * @description Determines whether this message is an end of track message.
+ *
+ * @memberof Message
+ *
+ * @returns {Boolean} {@linkcode true} if this is an end of track message, {@linkcode false} otherwise
+ */
 Message.prototype.isEndOfTrack = function () {
 	return this.statusByte === constants.META_EVENT && this.data[0] === constants.END_OF_TRACK;
 };
 
+/**
+ * toString
+ *
+ * @description Returns a string representation of this message.
+ *
+ * @memberof Message
+ *
+ * @returns {String} a string representation of this message
+ */
 Message.prototype.toString = function () {
 	if (this.statusByte === constants.META_EVENT) {
 		return 'Meta Event: 0x' + this.data[0].toString(16);
@@ -91,8 +173,11 @@ Message.prototype.toString = function () {
  * Parses a MIDI Message out of a buffer and returns it. Returns null
  * if there are too few bytes for the type of message.
  *
- * @param buffer
- * @param runningStatus
+ * @static
+ *
+ * @param {Buffer} buffer - the buffer to parse
+ * @param {Number} [runningStatus] - the running status byte
+ *
  * @returns {Message}
  */
 Message.fromBuffer = function (buffer, runningStatus) {

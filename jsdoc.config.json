@@ -1,0 +1,12 @@
+{
+	"source": {
+		"includePattern": "\\.js$"
+	},
+	"opts": {
+		"destination": "./docs",
+		"verbose": true,
+		"package": "package.json",
+		"readme": "readme.md",
+		"template": "./node_modules/ink-docstrap/template"
+	}
+}

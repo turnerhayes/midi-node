@@ -5,5 +5,6 @@ module.exports = {
 	Stream: require('./stream'),
 	Track: require('./track'),
 	Message: require('./message'),
-	Writer: require('./writer')
+	Writer: require('./writer'),
+	Constants: require('./constants')
 };
