@@ -5,7 +5,7 @@ var Sequence = require('../sequence');
 
 describe('parse a sequence from a buffer', function () {
 	it('should parse a sequence with 1 track', function () {
-		var midi = new Buffer(
+		var midi = Buffer.from(
 			'4d54686400000006000000010080' + // File header
 			'4d54726b0000000400ff2f00', // Empty track
 			'hex');
@@ -21,7 +21,7 @@ describe('parse a sequence from a buffer', function () {
 	});
 
 	it('should parse a sequence with 1 track and multiple events', function () {
-		var midi = new Buffer(
+		var midi = Buffer.from(
 			'4d54686400000006000000010080' + // File header
 			'4d54726b0000000c' + // track header
 			'00ff580404026008' + // tempo set to 105 bpm
@@ -39,7 +39,7 @@ describe('parse a sequence from a buffer', function () {
 	});
 
 	it('should parse a sequence with 1 track and multiple events with large delta', function () {
-		var midi = new Buffer(
+		var midi = Buffer.from(
 				'4d54686400000006000000010080' + // File header
 				'4d54726b0000000c' + // track header
 				'Da824fff580404026008' + // tempo set to 105 bpm
@@ -60,7 +60,7 @@ describe('parse a sequence from a buffer', function () {
 	});
 
 	it('should parse a sequence with 1 track and a running status', function () {
-		var midi = new Buffer(
+		var midi = Buffer.from(
 			'4d54686400000006000000010080' + // File header
 			'4d54726b0000000b' + // track header
 			'00803c64' + // note off
@@ -80,7 +80,7 @@ describe('parse a sequence from a buffer', function () {
 
 
 	it('should parse a sequence with 2 tracks and multiple events', function () {
-		var midi = new Buffer(
+		var midi = Buffer.from(
 			'4d54686400000006000100020080' + // File header
 			'4d54726b0000000c' + // track header
 			'00ff580404026008' + // tempo set to 105 bpm

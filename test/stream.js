@@ -12,7 +12,7 @@ function DummyStream() {
 util.inherits(DummyStream, events.EventEmitter);
 
 DummyStream.prototype.write = function (data) {
-	this.emit('data', new Buffer(data, 'hex'));
+	this.emit('data', Buffer.from(data, 'hex'));
 };
 
 describe('stream opens a sequence', function () {

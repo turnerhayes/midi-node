@@ -5,12 +5,12 @@ var vlv = require('../vlv');
 
 describe('variable length values', function () {
 	it('should parse a variable length value smaller than 0x80', function () {
-		var buffer = new Buffer('53', 'hex'); // 0101 0011
+		var buffer = Buffer.from('53', 'hex'); // 0101 0011
 		assert.equal(vlv.fromBuffer(buffer), 0x53);
 	});
 
 	it('should parse a variable length value larger than 0x80', function () {
-		var buffer = new Buffer('8253', 'hex'); // 1000 0010 0101 0011
+		var buffer = Buffer.from('8253', 'hex'); // 1000 0010 0101 0011
 		assert.equal(vlv.fromBuffer(buffer), 0x153);
 	});
 
@@ -39,7 +39,7 @@ describe('variable length values', function () {
 	});
 
 	it('should write a long variable length value', function () {
-		var buffer = new Buffer('DA824F', 'hex');
+		var buffer = Buffer.from('DA824F', 'hex');
 		assert.equal(vlv.fromBuffer(buffer), 1474895);
 	});
 });

@@ -50,7 +50,7 @@ Writer.prototype.startFile = function (fileType, noTracks, ticks, cb) {
 		throw new Error('Must at least specify one tick.');
 	}
 
-	var buffer = new Buffer(constants.FILE_HEADER_LENGTH);
+	var buffer = Buffer.alloc(constants.FILE_HEADER_LENGTH);
 	buffer.writeInt32BE(constants.START_OF_FILE, 0);
 	buffer.writeInt32BE(0x6, 4);
 	buffer.writeInt16BE(fileType, 8);
@@ -73,7 +73,7 @@ Writer.prototype.startFile = function (fileType, noTracks, ticks, cb) {
  * @returns the return value of the stream's {@linkcode write} method
  */
 Writer.prototype.startTrack = function (size, cb) {
-	var buffer = new Buffer(constants.TRACK_HEADER_LENGTH);
+	var buffer = Buffer.alloc(constants.TRACK_HEADER_LENGTH);
 	buffer.writeInt32BE(constants.START_OF_TRACK, 0);
 	if (!size) {
 		size = 0;
@@ -111,13 +111,13 @@ Writer.prototype.event = function (delta, statusByte, dataBytes, cb) {
 	if (this.lastEvent === statusByte) {
 		eventBuffer = Buffer.concat([
 			vlv.toBuffer(delta),
-			new Buffer(dataBytes)
+			Buffer.from(dataBytes)
 		]);
 	} else {
 		eventBuffer = Buffer.concat([
 			vlv.toBuffer(delta),
-			new Buffer([statusByte]),
-			new Buffer(dataBytes)
+			Buffer.from([statusByte]),
+			Buffer.from(dataBytes)
 		]);
 		this.lastEvent = statusByte;
 	}

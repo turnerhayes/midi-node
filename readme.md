@@ -16,7 +16,7 @@ These can all be parsed from a [Buffer](https://nodejs.org/api/buffer.html).
 
 ```js
 var midi = require('midi-node');
-var noteOff = new Buffer('803c00', 'hex'); // Channel 0, middle C4, 0 velocity
+var noteOff = Buffer.from('803c00', 'hex'); // Channel 0, middle C4, 0 velocity
 var message = midi.Message.fromBuffer(noteOff);
 
 message.getStatus(); // 0x80

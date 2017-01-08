@@ -50,6 +50,15 @@ describe('writer', function () {
 		}));
 	});
 
+	it('should write a program change event to a file', function (done) {
+		var file = fs.createWriteStream('./test/test');
+		var writer = new Writer(file);
+		assert.ok(writer.programChange(0x10, 1, 4, function () {
+			assert.equal(file.bytesWritten, 4);
+			done();
+		}));
+	});
+
 	it('should write an end of track event to a file', function (done) {
 		var file = fs.createWriteStream('./test/test');
 		var writer = new Writer(file);

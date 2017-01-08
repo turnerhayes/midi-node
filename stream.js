@@ -12,7 +12,7 @@ function MIDIStream(stream) {
 	events.EventEmitter.call(this);
 	this.tracks = [];
 	this.header = null;
-	this.buffer = new Buffer(0);
+	this.buffer = Buffer.alloc(0);
 	this.readingTrack = false;
 	this.runningStatus = null;
 

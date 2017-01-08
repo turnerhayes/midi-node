@@ -47,7 +47,7 @@ exports.fromBuffer = function (buffer) {
  */
 exports.toBuffer = function (value) {
 	if (!value) {
-		return new Buffer([0]);
+		return Buffer.from([0]);
 	}
 
 	var result = [];
@@ -60,5 +60,5 @@ exports.toBuffer = function (value) {
 	result[0] = result[0] & 0x7F;
 	result = result.reverse();
 
-	return new Buffer(result);
+	return Buffer.from(result);
 };
